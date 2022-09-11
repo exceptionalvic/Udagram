@@ -29,11 +29,11 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 // https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Felis_catus-cat_on_snow.jpg/1024px-Felis_catus-cat_on_snow.jpg
   /**************************************************************************** */
   app.get('/filteredimage', async (req: Request, res: Response) => {
-    const URL = req.query.image_url;
-    if (!URL) {
+    const img_url = req.query.image_url;
+    if (!img_url) {
         return res.status(400).send({ message: 'URL to the image is required.' })
     }
-    filterImageFromURL(URL).then(filteredImagePath => {
+    filterImageFromURL(img_url).then(filteredImagePath => {
         res.sendFile(filteredImagePath, () => {
             deleteLocalFiles([filteredImagePath]);
         })
@@ -44,7 +44,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url=&lt;open-public-image-url&gt;")
+    res.status(200).send("try GET /filteredimage?image_url=&lt;open-public-image-url&gt;")
   } );
   
   // Start the Server
